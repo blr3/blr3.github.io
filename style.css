@@ -58,11 +58,19 @@
   display: none;
 }
 
-.content {
+.content0 {
   width: 100%;
 }
 
-.content h2 {
+.content1 {
+  width: 100%;
+}
+
+.content2 {
+  width: 100%;
+}
+
+.content0 h2 {
   padding: 30px 20px 10px;
   font-family: 'MuseoModerno', cursive;
   font-size: 25px;
@@ -71,7 +79,43 @@
   text-align: center;
 }
 
-.content p {
+.content0 p {
+  padding: 0px 20px 20px;
+  font-family: 'Play', sans-serif;
+  font-size: 16px;
+  color: #111;
+  line-height: 24px;
+  text-align: center;
+}
+
+.content1 h2 {
+  padding: 30px 20px 10px;
+  font-family: 'MuseoModerno', cursive;
+  font-size: 25px;
+  color: #111;
+  line-height: 44px;
+  text-align: center;
+}
+
+.content1 p {
+  padding: 0px 20px 20px;
+  font-family: 'Play', sans-serif;
+  font-size: 16px;
+  color: #111;
+  line-height: 24px;
+  text-align: center;
+}
+
+.content2 h2 {
+  padding: 30px 20px 10px;
+  font-family: 'MuseoModerno', cursive;
+  font-size: 25px;
+  color: #111;
+  line-height: 44px;
+  text-align: center;
+}
+
+.content2 p {
   padding: 0px 20px 20px;
   font-family: 'Play', sans-serif;
   font-size: 16px;
@@ -124,17 +168,38 @@
     margin: 0 auto;
   }
 
-  .content h2 {
+  .content0 h2 {
     padding: 20px 0px 0px;
     font-size: 45px;
   }
 
-  .content p {
+  .content0 p {
+    padding: 10px 0px 0px;
+    font-size: 20px;
+  }
+
+  .content1 h2 {
+    padding: 20px 0px 0px;
+    font-size: 45px;
+  }
+
+  .content1 p {
+    padding: 10px 0px 0px;
+    font-size: 20px;
+  }
+
+  .content2 h2 {
+    padding: 20px 0px 0px;
+    font-size: 45px;
+  }
+
+  .content2 p {
     padding: 10px 0px 0px;
     font-size: 20px;
   }
 
   .cuzo {
+    /* transform: translate(-50%,-50%); */
     width: 80%
   }
 
@@ -152,34 +217,5 @@
     width: 1000px;
   }
 
-  .content {
-    width: 50%;
-    float: right;
-  }
 
-  .cuzo {
-    width: 50%;
-    height: 50%;
-    float: left;
-  }
-
-  .mom {
-    width: 50%;
-    height: 50%;
-    float: left;
-  }
-
-  .virgil {
-    width: 50%;
-    height: 50%;
-    float: left;
-  }
-
-  .content h2 {
-    padding: 160px 0px 0px 30px;
-  }
-
-  .content p {
-    padding: 10px 0px 0px 30px;
-  }
 }
