@@ -1,14 +1,7 @@
 * {
   margin:  5;
   padding: 0;
-}
-
-html {
-  box-sizing: border-box;
-}
-
-*, *:before, *:after {
-  box-sizing: inherit;
+  /* box-sizing: inherit; */
 }
 
 .fa {
@@ -65,12 +58,21 @@ html {
 .mommyandfriends-banner {
   display: none;
 }
+
+html {
+  box-sizing: border-box;
+}
+
+/* *, *:before, *:after {
+  box-sizing: inherit;
+} */
+
 /* The Modal (background) */
 .modal {
   display: none;
   position: fixed;
   z-index: 1;
-  padding-top: 50px;
+  padding-top: 100px;
   left: 0;
   top: 0;
   /* bottom: 0; */
