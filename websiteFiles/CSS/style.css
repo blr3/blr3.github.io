@@ -1,0 +1,382 @@
+* {
+  margin:  5;
+  padding: 0;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.fa {
+  padding: 20px;
+  font-size: 30px;
+  width: 25px;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* Add a hover effect if you want */
+.fa:hover {
+  opacity: 0.7;
+}
+
+.fa-instagram {
+  background: #d040e3;
+  color: white;
+}
+
+.fa {
+  padding: 5px;
+  font-size: 30px;
+  width: 15px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 25%;
+}
+
+.header-wrapper {
+  width: 100%;
+}
+
+.title-header h1 {
+  padding: 30px, 40px, 20px;
+  font-family: 'MuseoModerno', cursive;
+  font-size: 45px;
+  text-align: center;
+}
+
+.title-header p {
+  padding: 0px, 30px, 20px;
+  font-family: 'Play', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: #111;
+  text-align: center;
+}
+
+.wrapper {
+  width: 100%;
+}
+
+.mommyandfriends-banner {
+  display: none;
+}
+/* The Modal (background) */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 50px;
+  left: 0;
+  top: 0;
+  /* bottom: 0; */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: white;
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+
+  /* top: 5%;
+  left: 2%;
+  bottom: 5%;
+  right: 2%;
+  padding: 16px */
+
+  margin: auto;
+  /* margin-bottom: 200px; */ */
+  /* top: height/2; */
+  vertical-align: middle;
+  /* left: 10px;
+  right: 10px; */
+  width: 80%;
+  height: 80%;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* The Close Button */
+.close {
+  color: black;
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #999;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Hide the slides by default */
+.mySlides {
+  display: none;
+}
+
+/* .slide {
+  top: 500px;
+  max-width: 100%;
+} */
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -50px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.content0 {
+  width: 100%;
+}
+
+.content1 {
+  width: 100%;
+}
+
+.content2 {
+  width: 100%;
+}
+
+.content3 {
+  width: 100%;
+}
+
+.content0 h2 {
+  padding: 30px 20px 10px;
+  font-family: 'MuseoModerno', cursive;
+  font-size: 25px;
+  color: #111;
+  line-height: 44px;
+  text-align: center;
+}
+
+.content0 p {
+  padding: 0px 20px 20px;
+  font-family: 'Play', sans-serif;
+  font-size: 16px;
+  color: #111;
+  line-height: 24px;
+  text-align: center;
+}
+
+.content1 h2 {
+  padding: 30px 20px 10px;
+  font-family: 'MuseoModerno', cursive;
+  font-size: 25px;
+  color: #111;
+  line-height: 44px;
+  text-align: center;
+}
+
+.content1 p {
+  padding: 0px 20px 20px;
+  font-family: 'Play', sans-serif;
+  font-size: 16px;
+  color: #111;
+  line-height: 24px;
+  text-align: center;
+}
+
+.content2 h2 {
+  padding: 30px 20px 10px;
+  font-family: 'MuseoModerno', cursive;
+  font-size: 25px;
+  color: #111;
+  line-height: 44px;
+  text-align: center;
+}
+
+.content2 p {
+  padding: 0px 20px 20px;
+  font-family: 'Play', sans-serif;
+  font-size: 16px;
+  color: #111;
+  line-height: 24px;
+  text-align: center;
+}
+
+.content3 h2 {
+  padding: 30px 20px 10px;
+  font-family: 'MuseoModerno', cursive;
+  font-size: 25px;
+  color: #111;
+  line-height: 44px;
+  text-align: center;
+}
+
+.content3 p {
+  padding: 0px 20px 20px;
+  font-family: 'Play', sans-serif;
+  font-size: 16px;
+  color: #111;
+  line-height: 24px;
+  text-align: center;
+}
+
+.cuzo {
+  width: 100%;
+  height: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cuzo:hover {
+  transform: scale(1.1);
+}
+
+.mom {
+  width: 100%;
+  height: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mom:hover {
+  transform: scale(1.1);
+}
+
+.virgil {
+  width: 100%;
+  height: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.virgil:hover {
+  transform: scale(1.1);
+}
+
+.jeans {
+  width: 100%;
+  height: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.jeans:hover {
+  transform: scale(1.1);
+}
+
+@media only screen and (min-width: 768px) {
+  /* .mommyandfriends-banner {
+    display: block;
+    width: 100%;
+    padding-bottom: 30px;
+  } */
+
+  .title-header h1 {
+    padding: 30px, 40px, 20px;
+  }
+
+  .title-header p {
+    font-size: 20px;
+  }
+
+  .wrapper {
+    width: 600px;
+    margin: 0 auto;
+  }
+
+  .content0 h2 {
+    padding: 20px 0px 0px;
+    font-size: 45px;
+  }
+
+  .content0 p {
+    padding: 10px 0px 0px;
+    font-size: 20px;
+  }
+
+  .content1 h2 {
+    padding: 20px 0px 0px;
+    font-size: 45px;
+  }
+
+  .content1 p {
+    padding: 10px 0px 0px;
+    font-size: 20px;
+  }
+
+  .content2 h2 {
+    padding: 20px 0px 0px;
+    font-size: 45px;
+  }
+
+  .content2 p {
+    padding: 10px 0px 0px;
+    font-size: 20px;
+  }
+
+  .content3 h2 {
+    padding: 20px 0px 0px;
+    font-size: 45px;
+  }
+
+  .content3 p {
+    padding: 10px 0px 0px;
+    font-size: 20px;
+  }
+
+  .cuzo {
+    /* transform: translate(-50%,-50%); */
+    width: 80%
+  }
+
+  .mom {
+    width: 80%
+  }
+
+  .virgil {
+    width: 80%
+  }
+
+  .jeans {
+    width: 80%
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  .wrapper {
+    width: 1000px;
+  }
+
+
+}

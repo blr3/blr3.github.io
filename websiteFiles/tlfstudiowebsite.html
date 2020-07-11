@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TLF Studio: Weekend Projects</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@600&family=MuseoModerno:wght@900&family=Play&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <script src="/Users/brianna/Desktop/website files/JS/customLightbox.js"></script>
+    <img class="mommyandfriends-banner" src="mommyandfriends2.png" alt="banner">
+    <div class="header-wrapper">
+      <article class="title-header">
+        <h1>TLF Studio: Weekend Projects</h1>
+          <p>"Create today tomorrow is not promised" is the quote that inspired this initiative. This site is where I plan on placing my random weekend projects and small collections for fun. Lmk if you enjoy the experience. IG: tlflee
+          <a href="https://wwww.instagram.com/tlflee/" class="fa fa-instagram"></a></p>
+      </article>
+    </div>
+    <div class="wrapper">
+      <article class="content3">
+        <h2>My First Time Making Jeans: 7/5/20</h2>
+          <p>This weekend project was a sewing project: My first time making jeans. I’ve been wanting to make some jeans for the longest but I’ve always been afraid of failing at it (aka too lazy to make multiple prototypes). However, I decided to do it this past weekend and after having to pull out 3 of my machines and take 3 trips to the fabric store I finally did it!
+I decided to go simple for my first try, but the style of the jeans was inspired by many influences. My sister was a tomboy, so growing up I thought that the tomboy look was the standard way for girls to dress lol. I’ve also been meaning to buy a pair of EVISU jeans so these jeans were also inspired by them. Along with the jeans are a pair of lace boxer shorts that I made [which I absolutely adore]. This was also my first time using a pattern because I was never taught how to use one (For background info: I first learned how to sew when I was probably in elementary school by attending sewing classes at Joann Fabrics with my big sister. In middle school, my mom put me in summer fashion design camps at SAIC every year which is where I learned the basics. Everything else I learned was a combination of spending Saturdays sewing with the ladies from church and YouTube videos). I had fun with this sewing project mainly because I don’t usually ever finish anything I start. Tap Aaliyah’s photo for pictures of the jeans ✨</p>
+       </article>
+       <!-- <a href="firstjeans/jean0.JPG"> -->
+       <img src="aaliyah.JPEG" onclick="openModal();currentSlide(1)" width=200 class="jeans">
+       <!-- </a> -->
+	     <article class="content0">
+         <h2>mommyandfriends: 6/14/20</h2>
+           <p>I often look through my mom's old art specifically her photographs. She grew up in Cabrini-Green in Chicago. That's why I always watermark her photos with "Cabrini Green Queens" lol. I've always expressed to her interest in working with art and tech and she told me to do both, so a lot of stuff on this page is just me tinkering with both, because I can. Open this page in Safari and tap or click on the photo to interact with the AR.</p>
+        </article>
+        <a href="momasset.usdz" rel="ar">
+            <img class="mom" src="momandfriendssite.png" width=200>
+        </a>
+        <article class="content1">
+	        <h2>Cuzo: 2017</h2>
+		        <p>This shirt was inspired by my cousin's school photo that I took from my auntie's house. The shirt was apart of a collection I did called the "Family Portrait," in which I turned my interpretation of various family member's personalities into designs. This was the first time I converted a physical object into a 3d model so it looks a bit rough lol. Open this page in Safari and tap or click on the photo to see the shirt in AR.</p>
+        </article>
+          <a href="cuzoxxsmall.usdz" rel="ar">
+              <img class="cuzo" src="cuzo.png" width=200>
+          </a>
+        <article class="content2">
+          <h2>I got so much magic: 6/14/20</h2>
+            <p>I got this from Twitter. It's self-explanatory. Open this page in Safari and tap or click on the photo to interact with the AR</p>
+        </article>
+         <a href="virgilasset.usdz" rel="ar">
+             <img class="virgil" src="virgilmeme.JPG" width=200>
+         </a>
+    </div>
+    <!-- The Modal/Lightbox -->
+    <div id="myModal" class="modal">
+      <span class="close cursor" onclick="closeModal()">&times;</span>
+      <div class="modal-content">
+
+        <div class="mySlides">
+          <img src="firstjeans/jean0.JPG" style="width:100%; height:100%">
+        </div>
+
+        <div class="mySlides">
+          <img src="firstjeans/jean1.JPG" style="width:100%; height:100%; object-fit: cover">
+        </div>
+
+        <div class="mySlides">
+          <img src="firstjeans/jean2.JPG" style="width:100%">
+        </div>
+
+        <div class="mySlides">
+          <img src="firstjeans/jean3.JPG" style="width:100%">
+        </div>
+
+        <div class="mySlides">
+          <img src="firstjeans/jean4.JPG" style="width:100%">
+        </div>
+
+        <div class="mySlides">
+          <img src="firstjeans/jean5.JPG" style="width:100%">
+        </div>
+
+        <div class="mySlides">
+          <img src="firstjeans/jean6.JPG" style="width:100%">
+        </div>
+
+        <div class="mySlides">
+          <img src="firstjeans/jean7.JPG" style="width:100%">
+        </div>
+
+        <div class="mySlides">
+          <img src="firstjeans/jean10.jpg" style="width:100%" class="slide">
+        </div>
+
+        <div class="mySlides">
+          <img src="firstjeans/jean11.JPG" style="width:100%" class="slide">
+        </div>
+
+        <div class="mySlides">
+          <img src="firstjeans/jean12.jpg" style="width:100%" class="slide">
+        </div>
+
+        <!-- Next/previous controls -->
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+
+        <!-- Thumbnail image controls -->
+        <!-- <div class="dots"> -->
+          <!-- <img class="demo" src="aaliyah.JPEG" onclick="currentSlide(1)"> -->
+        <!-- </div> -->
+        <!-- <div class="column">
+          <img class="demo" src="img2.jpg" onclick="currentSlide(2)" alt="Snow">
+        </div>
+
+        <div class="column">
+          <img class="demo" src="img3.jpg" onclick="currentSlide(3)" alt="Mountains">
+        </div>
+
+        <div class="column">
+          <img class="demo" src="img4.jpg" onclick="currentSlide(4)" alt="Lights">
+        </div> -->
+  </div>
+</div>
+</body>
+</html>
