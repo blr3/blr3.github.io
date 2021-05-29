@@ -189,6 +189,10 @@ html {
   width: 100%;
 }
 
+.content6 {
+  width: 100%;
+}
+
 .content0 h2 {
   padding: 30px 20px 10px;
   font-family: 'MuseoModerno', cursive;
@@ -289,6 +293,24 @@ html {
 }
 
 .content5 p {
+  padding: 0px 20px 20px;
+  font-family: 'Play', sans-serif;
+  font-size: 16px;
+  color: #111;
+  line-height: 24px;
+  text-align: center;
+}
+
+.content6 h2 {
+  padding: 30px 20px 10px;
+  font-family: 'MuseoModerno', cursive;
+  font-size: 25px;
+  color: #111;
+  line-height: 44px;
+  text-align: center;
+}
+
+.content6 p {
   padding: 0px 20px 20px;
   font-family: 'Play', sans-serif;
   font-size: 16px;
@@ -433,6 +455,16 @@ html {
   }
 
   .content5 p {
+    padding: 10px 0px 0px;
+    font-size: 20px;
+  }
+
+  .content6 h2 {
+    padding: 20px 0px 0px;
+    font-size: 45px;
+  }
+
+  .content6 p {
     padding: 10px 0px 0px;
     font-size: 20px;
   }
