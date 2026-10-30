@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brianna Richard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #3a7ff6;   /* page background */
+      color: #ffffff;
+      font-family: "Avenir Next", "Avenir", "Helvetica Neue", Arial, sans-serif;
+      font-weight: 600;
+      min-height: 100vh;
+      padding: 0 70px;
+    }
+
+    /* ---------- Top bar ---------- */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 60px 20px 25px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+      font-size: 1.6rem;
+    }
+
+    header a {
+      color: rgba(255, 255, 255, 0.55);   /* faded white */
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    header a:hover { color: #ffffff; }
+
+    /* ---------- Main links ---------- */
+    main {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      height: calc(100vh - 180px);
+      min-height: 450px;
+      padding: 60px 0;
+    }
+
+    .big-link {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.8rem;
+      white-space: nowrap;
+      display: inline-block;
+      transition: transform 0.25s ease;   /* how fast it grows */
+    }
+
+    .big-link:hover {
+      transform: scale(1.2);              /* how much it grows */
+    }
+
+    /* Where each link sits */
+    .photo   { grid-column: 1; grid-row: 1; justify-self: start;  align-self: start;  transform-origin: left center; }
+    .music   { grid-column: 2; grid-row: 2; justify-self: center; align-self: center; }
+    .weekend { grid-column: 3; grid-row: 3; justify-self: end;    align-self: center; transform-origin: right center; }
+
+    /* Stack the links on phones */
+    @media (max-width: 700px) {
+      body { padding: 0 24px; }
+      header { padding-top: 40px; font-size: 1.2rem; }
+      main {
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+        height: auto;
+        min-height: 0;
+      }
+      .big-link { font-size: 1.4rem; align-self: flex-start; transform-origin: left center; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/">Brianna Richard</a>
+    <a href="/portfolio/">Portfolio</a>
+  </header>
+
+  <main>
+    <!-- Change each href to the page you want the link to open -->
+    <a class="big-link photo"   href="/photography/">Photography + Videography</a>
+    <a class="big-link music"   href="/music/">Music</a>
+    <a class="big-link weekend" href="/weekend-projects/">Weekend Projects</a>
+  </main>
+
+</body>
+</html>
