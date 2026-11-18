@@ -7,9 +7,14 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --bg: #f6f3ee;          /* page background (warm off-white) */
+      --ink: #141414;         /* text color */
+    }
+
     body {
-      background-color: #3a7ff6;   /* page background */
-      color: #ffffff;
+      background: var(--bg);
+      color: var(--ink);
       font-family: "Avenir Next", "Avenir", "Helvetica Neue", Arial, sans-serif;
       font-weight: 600;
       min-height: 100vh;
@@ -19,23 +24,56 @@
 
     /* ---------- Top bar ---------- */
     header {
+      position: relative;
+      z-index: 5;
       padding: 60px 20px 25px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.8);
       font-size: 1.6rem;
     }
     header a {
-      color: rgba(255, 255, 255, 0.55);
+      color: rgba(0, 0, 0, 0.55);
       text-decoration: none;
       transition: color 0.2s ease;
     }
-    header a:hover { color: #ffffff; }
+    header a:hover { color: var(--ink); }
 
-    /* ---------- Floating categories ---------- */
+    /* ---------- The map ---------- */
     main {
       position: relative;
       height: calc(100vh - 140px);
-      min-height: 520px;
+      min-height: 560px;
+      isolation: isolate;     /* keeps the color blending inside this area */
     }
+
+    /* Logo in the background */
+    .logo-bg {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: min(78vw, 1100px);
+      transform: translate(-50%, -50%);
+      opacity: 0.9;
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Colored light orbs that travel with each category */
+    .orb {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      margin: -150px 0 0 -150px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--c) 0%, var(--c) 18%, transparent 68%);
+      filter: blur(14px);
+      opacity: 0.8;
+      mix-blend-mode: multiply;
+      z-index: 1;
+      pointer-events: none;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+    .orb.lit { transform: scale(1.25); opacity: 1; }
 
     /* the lines that connect the categories */
     #links {
@@ -43,46 +81,52 @@
       inset: 0;
       width: 100%;
       height: 100%;
+      z-index: 2;
       pointer-events: none;
     }
     #links line {
-      stroke: rgba(255, 255, 255, 0.35);
+      stroke: rgba(0, 0, 0, 0.4);
       stroke-width: 1;
       transition: stroke 0.25s ease, stroke-width 0.25s ease;
     }
     #links line.lit {
-      stroke: rgba(255, 255, 255, 0.95);
+      stroke: rgba(0, 0, 0, 0.95);
       stroke-width: 1.5;
     }
 
     .node {
       position: absolute;
+      z-index: 3;
       transform: translate(-50%, -50%);
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 10px;
-      color: #ffffff;
+      color: var(--ink);
       text-decoration: none;
       font-size: 1.8rem;
       white-space: nowrap;
     }
     .node .dot {
+      flex-shrink: 0;
       width: 12px;
       height: 12px;
       border-radius: 50%;
-      background: #ffffff;
-      box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.18);
+      background: var(--ink);
+      box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.7);
       transition: box-shadow 0.25s ease;
     }
     .node .label {
       display: inline-block;
-      transition: transform 0.25s ease;   /* how fast it grows */
+      padding: 2px 10px;
+      border-radius: 99px;
+      background: rgba(246, 243, 238, 0.82);   /* soft backing so text reads over the logo */
+      transition: transform 0.25s ease;        /* how fast it grows */
     }
     .node:hover .label,
     .node:focus-visible .label { transform: scale(1.2); }   /* how much it grows */
     .node:hover .dot,
-    .node:focus-visible .dot { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.3); }
+    .node:focus-visible .dot { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.85); }
 
     /* ---------- Phones: simple stacked list ---------- */
     @media (max-width: 700px) {
@@ -94,13 +138,15 @@
         display: flex;
         flex-direction: column;
         gap: 44px;
-        padding: 50px 0 40px 8px;
-        border-left: 1px solid rgba(255, 255, 255, 0.35);
+        padding: 60px 0 60px 8px;
+        border-left: 1px solid rgba(0, 0, 0, 0.35);
         margin: 0 0 40px 6px;
       }
+      .logo-bg { width: 140vw; opacity: 0.12; }
       #links { display: none; }
+      .orb { width: 160px; height: 160px; margin: -80px 0 0 -80px; }
       .node {
-        position: static;
+        position: relative;
         transform: none;
         flex-direction: row;
         gap: 16px;
@@ -118,20 +164,22 @@
   </header>
 
   <main id="map">
+    <img class="logo-bg" src="/tlf-logo-outline.png" alt="" aria-hidden="true">
     <svg id="links" aria-hidden="true"></svg>
 
     <!-- Each category: change href to change where it goes.
-         data-x / data-y = where it sits on the page (percent from left / top). -->
-    <a class="node" href="/projects/" data-x="24" data-y="22">
+         data-x / data-y = where it sits on the page (percent from left / top).
+         data-color = the color of the light orb around it. -->
+    <a class="node" href="/projects/" data-x="22" data-y="20" data-color="#3a7ff6">
       <span class="dot"></span><span class="label">Creative Technology</span>
     </a>
-    <a class="node" href="https://briannarichard6.myportfolio.com/" data-x="74" data-y="28">
+    <a class="node" href="https://briannarichard6.myportfolio.com/" data-x="76" data-y="24" data-color="#ff8a3d">
       <span class="dot"></span><span class="label">Photography + Videography</span>
     </a>
-    <a class="node" href="/music/" data-x="38" data-y="70">
+    <a class="node" href="/music/" data-x="30" data-y="76" data-color="#ff4fa3">
       <span class="dot"></span><span class="label">Music</span>
     </a>
-    <a class="node" href="/tlfstudiowebsite.html" data-x="78" data-y="76">
+    <a class="node" href="/tlfstudiowebsite.html" data-x="74" data-y="80" data-color="#2ec27e">
       <span class="dot"></span><span class="label">Weekend Projects</span>
     </a>
   </main>
@@ -146,6 +194,15 @@
 
       // Which categories are connected (by position in the list above)
       const pairs = [[0, 1], [0, 2], [1, 3], [2, 3], [0, 3]];
+
+      // one colored light orb per category
+      const orbs = nodes.map(n => {
+        const o = document.createElement('div');
+        o.className = 'orb';
+        o.style.setProperty('--c', n.dataset.color || '#3a7ff6');
+        map.insertBefore(o, svg);
+        return o;
+      });
 
       const lines = pairs.map(() => {
         const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
@@ -166,10 +223,10 @@
         const on = (v) => pairs.forEach((p, k) => {
           if (p.includes(i)) lines[k].classList.toggle('lit', v);
         });
-        n.addEventListener('mouseenter', () => { on(true); drift[i].hold = true; });
-        n.addEventListener('mouseleave', () => { on(false); drift[i].hold = false; });
-        n.addEventListener('focus', () => on(true));
-        n.addEventListener('blur', () => on(false));
+        n.addEventListener('mouseenter', () => { on(true); orbs[i].classList.add('lit'); drift[i].hold = true; });
+        n.addEventListener('mouseleave', () => { on(false); orbs[i].classList.remove('lit'); drift[i].hold = false; });
+        n.addEventListener('focus', () => { on(true); orbs[i].classList.add('lit'); });
+        n.addEventListener('blur', () => { on(false); orbs[i].classList.remove('lit'); });
       });
 
       function frame(t) {
@@ -187,14 +244,23 @@
             // lines attach to the dot, which sits above the label
             const dot = n.querySelector('.dot').getBoundingClientRect();
             const box = map.getBoundingClientRect();
-            return [dot.left + dot.width / 2 - box.left, dot.top + dot.height / 2 - box.top];
+            const cx = dot.left + dot.width / 2 - box.left, cy = dot.top + dot.height / 2 - box.top;
+            orbs[i].style.left = cx + 'px';
+            orbs[i].style.top = cy + 'px';
+            return [cx, cy];
           });
           pairs.forEach(([a, b], k) => {
             lines[k].setAttribute('x1', pts[a][0]); lines[k].setAttribute('y1', pts[a][1]);
             lines[k].setAttribute('x2', pts[b][0]); lines[k].setAttribute('y2', pts[b][1]);
           });
         } else {
-          nodes.forEach(n => { n.style.left = ''; n.style.top = ''; });
+          const box = map.getBoundingClientRect();
+          nodes.forEach((n, i) => {
+            n.style.left = ''; n.style.top = '';
+            const dot = n.querySelector('.dot').getBoundingClientRect();
+            orbs[i].style.left = (dot.left + dot.width / 2 - box.left) + 'px';
+            orbs[i].style.top = (dot.top + dot.height / 2 - box.top) + 'px';
+          });
         }
         if (!reduceMotion) requestAnimationFrame(frame);
       }
