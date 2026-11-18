@@ -283,3 +283,6 @@ model-viewer.model { width: 100%; height: 520px; background: #f4f4f4; border-rad
 .ar-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-top: 16px; }
 .ar-row img { width: 100%; border-radius: 10px; display: block; background: #f4f4f4; transition: transform .25s ease; }
 .ar-row a:hover img { transform: scale(1.03); }
+model-viewer.model + .caption + model-viewer.model { margin-top: 28px; }
+figure.board { margin-top: 18px; }
+figure.board img { width: 100%; border-radius: 10px; display: block; border: 1px solid var(--line); }
