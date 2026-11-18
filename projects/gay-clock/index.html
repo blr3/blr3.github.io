@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gay Clock or Thot Watch? · Brianna Richard</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="/">Brianna Richard</a>
+    <a href="/projects/">Projects</a>
+  </header>
+
+  <main class="wrap detail">
+    <a class="back" href="../">← All projects</a>
+    <h1>Gay Clock or Thot Watch? </h1>
+    
+    <p class="meta">2026</p>
+    <ul class="tags"><li>Python</li><li>pandas</li><li>Survey design</li><li>Data</li></ul>
+    <div class="hero"><img src="../img/gayclock-card.jpg" alt=""></div>
+    <section><h2>Overview</h2>
+      <p>A satirical “time converter” poking fun at the stereotype that queer people move faster in relationships. I built it to find out, with a survey, some math, and a lot of jokes.</p>
+    </section>
+    <section><h2>Method</h2>
+      <ol><li><strong>Survey:</strong> 24 questions in Google Forms, grouped into four tiers: identity, talking stage, dating, and relationships.</li><li><strong>Normalize:</strong> each answer is converted to days or a count, then scaled to 0–100, so a higher score always means faster.</li><li><strong>Custom scales</strong> for the subjective questions (“Speed Runner” vs. “Slow Burner”).</li><li><strong>Weight</strong> each question, apply age and zodiac multipliers (for fun), and average the scores by how people identify.</li></ol><pre><code># How long does it take you to develop a crush?
+crushTimeDict = {"Less than a week": 7, "A month or so": 30,
+                 "A year": 365, "I never develop crushes": 800}
+crushPoints = {x: 100 - (x - crushMin) / (crushMax - crushMin) * 100
+               for x in crushTimeDict.values()}</code></pre>
+    </section>
+    <section><h2>Result</h2>
+      <p>Plot twist: <strong>straight respondents moved 15.6% faster</strong> than queer respondents. The data undercut the joke.</p>
+    </section>
+    <section><h2>What I learned</h2>
+      <ul><li>The questions were too general to separate the groups clearly.</li><li>Open-ended “Other” answers were hard to quantify, so round two drops them.</li><li>There wasn't enough data for a reliable correlation, so I set the weights by judgment and cultural references.</li></ul>
+    </section>
+    <section><h2>Next</h2>
+      <p>Round two: sharper questions and a goal of 50+ responses.</p>
+    </section>
+
+    <p class="links"><a class="btn" href="https://brianna803807.substack.com/p/gay-clock-or-thot-watch">Read the write-up on Substack →</a> <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSc6LT4XgkPa2bvFcJVn74tVxxGVMsi4C5ErgRQhL-o2Ell3fg/viewform">Take the round-two survey →</a></p>
+    <nav class="pager">
+      <a href="../popout/">← PopOut</a>
+      <a href="../gesture-sound/">Gesture → Sound →</a>
+    </nav>
+  </main>
+</body>
+</html>

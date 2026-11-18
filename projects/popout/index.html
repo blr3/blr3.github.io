@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PopOut · Brianna Richard</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="/">Brianna Richard</a>
+    <a href="/projects/">Projects</a>
+  </header>
+
+  <main class="wrap detail">
+    <a class="back" href="../">← All projects</a>
+    <h1>PopOut <span class="label">Prototype</span></h1>
+    
+    <p class="meta">2019–2020</p>
+    <ul class="tags"><li>iOS</li><li>ARKit</li><li>Swift</li><li>Firebase</li></ul>
+    <div class="hero"><video src="../img/popout-loop.mp4" poster="../img/popout-poster.jpg" autoplay muted loop playsinline></video></div>
+    <section><h2>Overview</h2>
+      <p>PopOut is an AR app for interactive storytelling. It gives artists and brands a way to share the stories behind their work, and gives people a way to connect with the art and culture in their community. Visitors enter an exhibition code, point their phone at a piece, and a 3D artwork, video, or story pops out of it.</p><p>I submitted it to the <strong>Virgil × MCA design challenge</strong>.</p>
+    </section>
+    <section><h2>Demo</h2>
+      <video class="demo" src="../img/popout-demo.mp4" poster="../img/popout-demo-poster.jpg" controls muted playsinline preload="none"></video><p class="caption">Screen recording: the camera finds a printed target and a shirt, and the story behind the design appears in AR.</p><p><a class="btn" href="https://youtu.be/hYJxOk4OoXY">Watch the contest submission →</a></p>
+    </section>
+    <section><h2>How it works</h2>
+      <ul><li>Enter a 4-digit exhibition code, get a short tutorial, then the AR camera opens.</li><li>ARKit image tracking recognizes the artwork and anchors a 3D model or video to it.</li><li>Image targets and 3D assets load from Firebase at runtime, so a new exhibition can go live without shipping an app update.</li><li>A story feed carries longer posts, image carousels, and quotes from the artists.</li></ul>
+    </section>
+    <section><h2>The models</h2>
+      <p>The 3D pieces are my own, including t-shirts I designed and rebuilt in 3D. See <a href="../photogrammetry/">Photogrammetry Tees</a>.</p>
+    </section>
+    <section><h2>Where it was going</h2>
+      <p>A feed of “bubbles” that grow as more people interact with them, conversation threads under each piece, and location-based public art for local artists.</p>
+    </section>
+    <section><h2>What I learned</h2>
+      <p><strong>Building a full app is a journey.</strong> There's so much that goes into it beyond how it looks and how it works. This was before AI tools, so I learned to be resourceful: digging through YouTube and Google for answers. My biggest blocker was building a system where people could upload 3D models and images, and the app could retrieve them seamlessly. I ended up on Stack Overflow, asking questions and getting help from other developers. It taught me the lifecycle of building a functional app, not just a prototype.</p><p><strong>A strong “why” matters.</strong> The challenge brief was very ambiguous. Without a clear purpose, a product can drift in any direction. It pushed me to zone in on who I was building for and why, and I've carried that into every project since.</p>
+    </section>
+    <section class="gallery">
+      <figure><img src="../img/popout-app-ui.jpg" alt="The about screen inside the app" loading="lazy"><figcaption>The about screen inside the app</figcaption></figure>
+      <figure><img src="../img/popout-logo.png" alt="PopOut logo" loading="lazy"><figcaption>PopOut logo</figcaption></figure>
+    </section>
+    <p class="links"><a class="btn" href="https://github.com/blr3/PopOut">View the code on GitHub →</a></p>
+    <nav class="pager">
+      <a href="../young-nudy/">← Nudy Land</a>
+      <a href="../gay-clock/">Gay Clock or Thot Watch? →</a>
+    </nav>
+  </main>
+</body>
+</html>
