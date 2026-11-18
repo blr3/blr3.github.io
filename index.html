@@ -50,7 +50,7 @@
       position: absolute;
       left: 50%;
       top: 50%;
-      width: min(78vw, 1100px);
+      width: min(72vw, 1050px);
       transform: translate(-50%, -50%);
       opacity: 0.9;
       z-index: 0;
@@ -75,23 +75,16 @@
     }
     .orb.lit { transform: scale(1.25); opacity: 1; }
 
-    /* the lines that connect the categories */
-    #links {
+    /* the colored trails the orbs leave behind */
+    #trails {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      z-index: 2;
+      z-index: 1;
       pointer-events: none;
-    }
-    #links line {
-      stroke: rgba(0, 0, 0, 0.4);
-      stroke-width: 1;
-      transition: stroke 0.25s ease, stroke-width 0.25s ease;
-    }
-    #links line.lit {
-      stroke: rgba(0, 0, 0, 0.95);
-      stroke-width: 1.5;
+      filter: blur(10px);
+      mix-blend-mode: multiply;
     }
 
     .node {
@@ -143,7 +136,7 @@
         margin: 0 0 40px 6px;
       }
       .logo-bg { width: 140vw; opacity: 0.12; }
-      #links { display: none; }
+      #trails { display: none; }
       .orb { width: 160px; height: 160px; margin: -80px 0 0 -80px; }
       .node {
         position: relative;
@@ -165,95 +158,93 @@
 
   <main id="map">
     <img class="logo-bg" src="/tlf-logo-outline.png" alt="" aria-hidden="true">
-    <svg id="links" aria-hidden="true"></svg>
+    <canvas id="trails" aria-hidden="true"></canvas>
 
     <!-- Each category: change href to change where it goes.
-         data-x / data-y = where it sits on the page (percent from left / top).
-         data-color = the color of the light orb around it. -->
-    <a class="node" href="/projects/" data-x="22" data-y="20" data-color="#3a7ff6">
+         data-color = the color of its light orb and trail.
+         They travel around the outline of the logo in this order. -->
+    <a class="node" href="/projects/" data-color="#3a7ff6">
       <span class="dot"></span><span class="label">Creative Technology</span>
     </a>
-    <a class="node" href="https://briannarichard6.myportfolio.com/" data-x="76" data-y="24" data-color="#ff8a3d">
+    <a class="node" href="https://briannarichard6.myportfolio.com/" data-color="#ff8a3d">
       <span class="dot"></span><span class="label">Photography + Videography</span>
     </a>
-    <a class="node" href="/music/" data-x="30" data-y="76" data-color="#ff4fa3">
-      <span class="dot"></span><span class="label">Music</span>
-    </a>
-    <a class="node" href="/tlfstudiowebsite.html" data-x="74" data-y="80" data-color="#2ec27e">
+    <a class="node" href="/tlfstudiowebsite.html" data-color="#2ec27e">
       <span class="dot"></span><span class="label">Weekend Projects</span>
+    </a>
+    <a class="node" href="/music/" data-color="#ff4fa3">
+      <span class="dot"></span><span class="label">Music</span>
     </a>
   </main>
 
   <script>
     (function () {
       const map = document.getElementById('map');
-      const svg = document.getElementById('links');
+      const logo = map.querySelector('.logo-bg');
+      const canvas = document.getElementById('trails');
+      const ctx = canvas.getContext('2d');
       const nodes = [...map.querySelectorAll('.node')];
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const stacked = () => window.matchMedia('(max-width: 700px)').matches;
 
-      // Which categories are connected (by position in the list above)
-      const pairs = [[0, 1], [0, 2], [1, 3], [2, 3], [0, 3]];
+      // The outline of the TLF logo, traced from the image (0–1 across / down the logo)
+      const PATH = [[0.092,0.0243],[0.1089,0.0206],[0.1261,0.0205],[0.1432,0.0208],[0.1599,0.0262],[0.1754,0.0385],[0.1891,0.0559],[0.202,0.075],[0.2153,0.0934],[0.23,0.1083],[0.2463,0.1167],[0.2634,0.1189],[0.2803,0.1157],[0.2968,0.1081],[0.3127,0.0971],[0.3279,0.0837],[0.3423,0.0679],[0.3561,0.0508],[0.3703,0.0344],[0.3861,0.0237],[0.4031,0.0205],[0.4202,0.0205],[0.4373,0.0205],[0.4544,0.0205],[0.4712,0.0253],[0.4858,0.0402],[0.4972,0.0619],[0.5085,0.0837],[0.5246,0.0871],[0.5375,0.0684],[0.5496,0.0477],[0.5635,0.031],[0.5798,0.0222],[0.5968,0.0205],[0.6139,0.0205],[0.631,0.0205],[0.6481,0.0205],[0.6652,0.0205],[0.6823,0.0205],[0.6994,0.0213],[0.7165,0.0229],[0.7336,0.0239],[0.7507,0.0239],[0.7678,0.0239],[0.7849,0.0225],[0.802,0.021],[0.8191,0.0205],[0.8362,0.0205],[0.8533,0.0205],[0.8704,0.0205],[0.8875,0.0205],[0.9047,0.0207],[0.9214,0.0259],[0.9367,0.0389],[0.95,0.0572],[0.9619,0.0781],[0.9723,0.1013],[0.9806,0.1267],[0.9852,0.1548],[0.986,0.1839],[0.986,0.2131],[0.986,0.2423],[0.986,0.2715],[0.9849,0.3006],[0.9785,0.3275],[0.9671,0.349],[0.9527,0.3646],[0.9366,0.3745],[0.9197,0.3783],[0.9026,0.3761],[0.8861,0.3688],[0.8706,0.3567],[0.8563,0.3407],[0.8433,0.3217],[0.8316,0.3005],[0.8205,0.2782],[0.8091,0.2565],[0.7968,0.2362],[0.7839,0.2169],[0.771,0.1978],[0.758,0.1789],[0.7447,0.1605],[0.7314,0.1422],[0.718,0.124],[0.7046,0.106],[0.6905,0.0894],[0.6757,0.0748],[0.6601,0.0628],[0.6438,0.0537],[0.627,0.0482],[0.61,0.0467],[0.593,0.0502],[0.5774,0.0619],[0.5645,0.0808],[0.5551,0.1051],[0.5507,0.1332],[0.5509,0.1624],[0.5537,0.1911],[0.5589,0.2189],[0.5657,0.2457],[0.5736,0.2716],[0.5825,0.2965],[0.5923,0.3204],[0.6029,0.3432],[0.6143,0.365],[0.6263,0.3859],[0.6388,0.4058],[0.6518,0.4247],[0.6652,0.4428],[0.6787,0.4609],[0.6921,0.479],[0.7056,0.4969],[0.7195,0.514],[0.7337,0.5302],[0.7483,0.5453],[0.7632,0.5599],[0.7783,0.5735],[0.7936,0.5864],[0.8096,0.5969],[0.8261,0.6043],[0.8431,0.6082],[0.8601,0.6106],[0.8771,0.6144],[0.8933,0.6233],[0.9081,0.6378],[0.9211,0.6567],[0.9328,0.6781],[0.9428,0.7017],[0.9515,0.7268],[0.9586,0.7534],[0.9637,0.7812],[0.9668,0.8099],[0.9678,0.8391],[0.9661,0.8681],[0.9615,0.8962],[0.9538,0.9221],[0.9429,0.9446],[0.9296,0.9627],[0.9137,0.9733],[0.8967,0.9761],[0.8796,0.9761],[0.8625,0.9745],[0.846,0.9671],[0.8307,0.9542],[0.8168,0.9373],[0.8045,0.917],[0.7939,0.8941],[0.7851,0.8691],[0.7775,0.843],[0.771,0.816],[0.7652,0.7885],[0.7593,0.7611],[0.7529,0.734],[0.7448,0.7084],[0.7304,0.6956],[0.7206,0.7172],[0.7197,0.7462],[0.7182,0.7753],[0.7147,0.8039],[0.7099,0.8319],[0.703,0.8586],[0.6941,0.8835],[0.6835,0.9063],[0.6714,0.927],[0.6581,0.9454],[0.6436,0.9607],[0.6276,0.9709],[0.6107,0.9753],[0.5936,0.9761],[0.5765,0.9761],[0.5594,0.9761],[0.5423,0.9761],[0.5252,0.9761],[0.5081,0.9761],[0.4909,0.9761],[0.4738,0.9761],[0.4567,0.9761],[0.4396,0.9761],[0.4225,0.9761],[0.4054,0.9761],[0.3883,0.9761],[0.3712,0.9761],[0.3541,0.9761],[0.337,0.9761],[0.3199,0.9761],[0.3027,0.9761],[0.2856,0.9761],[0.2685,0.9761],[0.2514,0.9761],[0.2343,0.9761],[0.2172,0.9761],[0.2001,0.9756],[0.1846,0.9643],[0.1736,0.9421],[0.1587,0.9311],[0.1434,0.9434],[0.1294,0.9602],[0.1137,0.9716],[0.0968,0.9759],[0.0797,0.9761],[0.0626,0.9755],[0.046,0.9691],[0.0314,0.9541],[0.0198,0.9328],[0.0132,0.906],[0.012,0.8769],[0.012,0.8478],[0.012,0.8186],[0.012,0.7894],[0.0125,0.7602],[0.0162,0.7318],[0.0239,0.7057],[0.0339,0.6821],[0.0453,0.6603],[0.0573,0.6395],[0.0694,0.6188],[0.0817,0.5986],[0.0942,0.5787],[0.1069,0.5592],[0.1194,0.5393],[0.1318,0.519],[0.1435,0.4978],[0.1551,0.4763],[0.1664,0.4545],[0.1777,0.4325],[0.1886,0.41],[0.1989,0.3866],[0.2085,0.3625],[0.2178,0.338],[0.2265,0.3128],[0.2343,0.2869],[0.2408,0.2599],[0.2433,0.2315],[0.2327,0.2125],[0.2172,0.2237],[0.2053,0.2447],[0.1936,0.2659],[0.1822,0.2877],[0.1701,0.3083],[0.1573,0.3276],[0.1431,0.344],[0.1279,0.3573],[0.1118,0.3667],[0.0949,0.3711],[0.0778,0.3705],[0.0611,0.3647],[0.0456,0.3525],[0.032,0.3349],[0.0209,0.3127],[0.0141,0.2861],[0.012,0.2572],[0.012,0.228],[0.0121,0.1988],[0.0142,0.1698],[0.0198,0.1423],[0.0281,0.1169],[0.0381,0.0931],[0.0494,0.0714],[0.0621,0.0518],[0.0762,0.0353]];
+
+      const LAP_SECONDS = 60;   // how long one trip around the logo takes
+      const HEAD_GLOW = 150;    // size of the light around each category
 
       // one colored light orb per category
       const orbs = nodes.map(n => {
         const o = document.createElement('div');
         o.className = 'orb';
         o.style.setProperty('--c', n.dataset.color || '#3a7ff6');
-        map.insertBefore(o, svg);
+        map.insertBefore(o, canvas);
         return o;
       });
+      const rgb = hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
+      const colors = nodes.map(n => rgb(n.dataset.color || '#3a7ff6'));
 
-      const lines = pairs.map(() => {
-        const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        svg.appendChild(l);
-        return l;
-      });
+      // Path geometry in page pixels
+      let pts = [], cum = [], total = 1;
+      function layout() {
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = map.clientWidth * dpr;
+        canvas.height = map.clientHeight * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const box = map.getBoundingClientRect(), r = logo.getBoundingClientRect();
+        pts = PATH.map(([x, y]) => [r.left - box.left + x * r.width, r.top - box.top + y * r.height]);
+        cum = [0];
+        for (let i = 1; i <= pts.length; i++) {
+          const a = pts[i - 1], b = pts[i % pts.length];
+          cum.push(cum[i - 1] + Math.hypot(b[0] - a[0], b[1] - a[1]));
+        }
+        total = cum[cum.length - 1];
+      }
+      // point at fraction u (0–1) of the way around
+      function at(u) {
+        u = ((u % 1) + 1) % 1;
+        const d = u * total;
+        let i = 1; while (cum[i] < d) i++;
+        const a = pts[i - 1], b = pts[i % pts.length], t = (d - cum[i - 1]) / (cum[i] - cum[i - 1] || 1);
+        return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+      }
 
-      // Each node drifts on its own slow, gentle path
-      const drift = nodes.map((_, i) => ({
-        ax: 18 + i * 4, ay: 14 + i * 3,          // how far it drifts (px)
-        sx: 0.00021 + i * 0.00004,               // how fast
-        sy: 0.00017 + i * 0.00005,
-        px: i * 1.7, py: i * 2.3                 // starting phase
-      }));
-
-      // Light up a node's lines on hover
+      // Pause the whole procession while a category is hovered
+      let paused = false, clock = 0, last = null;
       nodes.forEach((n, i) => {
-        const on = (v) => pairs.forEach((p, k) => {
-          if (p.includes(i)) lines[k].classList.toggle('lit', v);
-        });
-        n.addEventListener('mouseenter', () => { on(true); orbs[i].classList.add('lit'); drift[i].hold = true; });
-        n.addEventListener('mouseleave', () => { on(false); orbs[i].classList.remove('lit'); drift[i].hold = false; });
-        n.addEventListener('focus', () => { on(true); orbs[i].classList.add('lit'); });
-        n.addEventListener('blur', () => { on(false); orbs[i].classList.remove('lit'); });
+        const on = v => { paused = v; orbs[i].classList.toggle('lit', v); };
+        n.addEventListener('mouseenter', () => on(true));
+        n.addEventListener('mouseleave', () => on(false));
+        n.addEventListener('focus', () => on(true));
+        n.addEventListener('blur', () => on(false));
       });
 
-      function frame(t) {
-        if (!stacked()) {
-          const w = map.clientWidth, h = map.clientHeight;
-          const pts = nodes.map((n, i) => {
-            const d = drift[i];
-            if (!d.hold) d.t = t;                  // hovered categories pause in place
-            const dx = reduceMotion ? 0 : Math.sin(d.t * d.sx + d.px) * d.ax;
-            const dy = reduceMotion ? 0 : Math.cos(d.t * d.sy + d.py) * d.ay;
-            const x = (parseFloat(n.dataset.x) / 100) * w + dx;
-            const y = (parseFloat(n.dataset.y) / 100) * h + dy;
-            n.style.left = x + 'px';
-            n.style.top = y + 'px';
-            // lines attach to the dot, which sits above the label
-            const dot = n.querySelector('.dot').getBoundingClientRect();
-            const box = map.getBoundingClientRect();
-            const cx = dot.left + dot.width / 2 - box.left, cy = dot.top + dot.height / 2 - box.top;
-            orbs[i].style.left = cx + 'px';
-            orbs[i].style.top = cy + 'px';
-            return [cx, cy];
-          });
-          pairs.forEach(([a, b], k) => {
-            lines[k].setAttribute('x1', pts[a][0]); lines[k].setAttribute('y1', pts[a][1]);
-            lines[k].setAttribute('x2', pts[b][0]); lines[k].setAttribute('y2', pts[b][1]);
-          });
-        } else {
+      function frame(now) {
+        if (last === null) last = now;
+        if (!paused && !reduceMotion) clock += (now - last) / 1000;
+        last = now;
+
+        if (stacked()) {
           const box = map.getBoundingClientRect();
           nodes.forEach((n, i) => {
             n.style.left = ''; n.style.top = '';
@@ -261,11 +252,48 @@
             orbs[i].style.left = (dot.left + dot.width / 2 - box.left) + 'px';
             orbs[i].style.top = (dot.top + dot.height / 2 - box.top) + 'px';
           });
+        } else {
+          const k = nodes.length, base = clock / LAP_SECONDS;
+          const heads = nodes.map((_, i) => base - i / k);   // evenly spaced, one after another
+
+          // trails: each color fades back along the outline and blends into the color behind it
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.lineCap = 'round';
+          const steps = 70;
+          heads.forEach((h, i) => {
+            const c1 = colors[i], c2 = colors[(i + 1) % k];
+            let p = at(h);
+            for (let s = 1; s <= steps; s++) {
+              const f = s / steps, q = at(h - f / k);
+              const c = c1.map((v, j) => Math.round(v + (c2[j] - v) * f));
+              const alpha = 0.22 + 0.55 * Math.pow(1 - f, 1.4);
+              ctx.strokeStyle = `rgba(${c[0]},${c[1]},${c[2]},${alpha})`;
+              ctx.lineWidth = 48 - 22 * f;
+              ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo(q[0], q[1]); ctx.stroke();
+              p = q;
+            }
+          });
+
+          // move each category (and its glow) to its spot on the outline
+          heads.forEach((h, i) => {
+            const [x, y] = at(h);
+            const n = nodes[i];
+            n.style.left = x + 'px';
+            n.style.top = (y + n.offsetHeight / 2 - 6) + 'px';   // dot sits on the line
+            orbs[i].style.left = x + 'px';
+            orbs[i].style.top = y + 'px';
+            // keep the label on screen near the edges
+            const lab = n.querySelector('.label'), half = lab.offsetWidth / 2, pad = 8;
+            const shift = Math.max(pad + half - x, Math.min(0, map.clientWidth - pad - half - x));
+            lab.style.translate = shift + 'px 0';
+          });
         }
-        if (!reduceMotion) requestAnimationFrame(frame);
+        requestAnimationFrame(frame);
       }
-      requestAnimationFrame(frame);
-      if (reduceMotion) window.addEventListener('resize', () => frame(0));
+
+      const start = () => { layout(); requestAnimationFrame(frame); };
+      window.addEventListener('resize', layout);
+      if (logo.complete) start(); else logo.addEventListener('load', start);
     })();
   </script>
 
