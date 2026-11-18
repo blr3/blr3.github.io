@@ -271,3 +271,15 @@ body.theme-nudy {
 .tt-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 18px; }
 .tt iframe { width: 100%; aspect-ratio: 9 / 16; border: 0; border-radius: 12px; background: var(--blue-deep); display: block; }
 .tt video { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 12px; background: #000; display: block; }
+
+/* Stat tiles */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; }
+.stats div { border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+.stats strong { display: block; font-size: 1.9rem; line-height: 1.1; margin-bottom: 4px; }
+.stats span { color: var(--soft); font-size: .92rem; }
+
+/* 3D viewer + AR links */
+model-viewer.model { width: 100%; height: 520px; background: #f4f4f4; border-radius: 14px; --poster-color: #f4f4f4; }
+.ar-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-top: 16px; }
+.ar-row img { width: 100%; border-radius: 10px; display: block; background: #f4f4f4; transition: transform .25s ease; }
+.ar-row a:hover img { transform: scale(1.03); }
