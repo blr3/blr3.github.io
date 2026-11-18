@@ -14,66 +14,100 @@
       font-weight: 600;
       min-height: 100vh;
       padding: 0 70px;
+      overflow-x: hidden;
     }
 
     /* ---------- Top bar ---------- */
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       padding: 60px 20px 25px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.8);
       font-size: 1.6rem;
     }
-
     header a {
-      color: rgba(255, 255, 255, 0.55);   /* faded white */
+      color: rgba(255, 255, 255, 0.55);
       text-decoration: none;
       transition: color 0.2s ease;
     }
-
     header a:hover { color: #ffffff; }
 
-    /* ---------- Main links ---------- */
+    /* ---------- Floating categories ---------- */
     main {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(3, 1fr);
-      height: calc(100vh - 180px);
-      min-height: 450px;
-      padding: 60px 0;
+      position: relative;
+      height: calc(100vh - 140px);
+      min-height: 520px;
     }
 
-    .big-link {
+    /* the lines that connect the categories */
+    #links {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    #links line {
+      stroke: rgba(255, 255, 255, 0.35);
+      stroke-width: 1;
+      transition: stroke 0.25s ease, stroke-width 0.25s ease;
+    }
+    #links line.lit {
+      stroke: rgba(255, 255, 255, 0.95);
+      stroke-width: 1.5;
+    }
+
+    .node {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
       color: #ffffff;
       text-decoration: none;
       font-size: 1.8rem;
       white-space: nowrap;
+    }
+    .node .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.18);
+      transition: box-shadow 0.25s ease;
+    }
+    .node .label {
       display: inline-block;
       transition: transform 0.25s ease;   /* how fast it grows */
     }
+    .node:hover .label,
+    .node:focus-visible .label { transform: scale(1.2); }   /* how much it grows */
+    .node:hover .dot,
+    .node:focus-visible .dot { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.3); }
 
-    .big-link:hover {
-      transform: scale(1.2);              /* how much it grows */
-    }
-
-    /* Where each link sits */
-    .photo   { grid-column: 1; grid-row: 1; justify-self: start;  align-self: start;  transform-origin: left center; }
-    .music   { grid-column: 2; grid-row: 2; justify-self: center; align-self: center; }
-    .weekend { grid-column: 3; grid-row: 3; justify-self: end;    align-self: center; transform-origin: right center; }
-
-    /* Stack the links on phones */
+    /* ---------- Phones: simple stacked list ---------- */
     @media (max-width: 700px) {
       body { padding: 0 24px; }
       header { padding-top: 40px; font-size: 1.2rem; }
       main {
-        display: flex;
-        flex-direction: column;
-        gap: 50px;
         height: auto;
         min-height: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 44px;
+        padding: 50px 0 40px 8px;
+        border-left: 1px solid rgba(255, 255, 255, 0.35);
+        margin: 0 0 40px 6px;
       }
-      .big-link { font-size: 1.4rem; align-self: flex-start; transform-origin: left center; }
+      #links { display: none; }
+      .node {
+        position: static;
+        transform: none;
+        flex-direction: row;
+        gap: 16px;
+        font-size: 1.4rem;
+        margin-left: -15px;
+      }
+      .node .label { transform-origin: left center; }
     }
   </style>
 </head>
@@ -81,15 +115,93 @@
 
   <header>
     <a href="/">Brianna Richard</a>
-    <a href="/projects/">Portfolio</a>
   </header>
 
-  <main>
-    <!-- Change each href to the page you want the link to open -->
-    <a class="big-link photo"   href="https://briannarichard6.myportfolio.com/">Photography + Videography</a>
-    <a class="big-link music"   href="/music/">Music</a>
-    <a class="big-link weekend" href="/tlfstudiowebsite.html">Weekend Projects</a>
+  <main id="map">
+    <svg id="links" aria-hidden="true"></svg>
+
+    <!-- Each category: change href to change where it goes.
+         data-x / data-y = where it sits on the page (percent from left / top). -->
+    <a class="node" href="/projects/" data-x="24" data-y="22">
+      <span class="dot"></span><span class="label">Creative Technology</span>
+    </a>
+    <a class="node" href="https://briannarichard6.myportfolio.com/" data-x="74" data-y="28">
+      <span class="dot"></span><span class="label">Photography + Videography</span>
+    </a>
+    <a class="node" href="/music/" data-x="38" data-y="70">
+      <span class="dot"></span><span class="label">Music</span>
+    </a>
+    <a class="node" href="/tlfstudiowebsite.html" data-x="78" data-y="76">
+      <span class="dot"></span><span class="label">Weekend Projects</span>
+    </a>
   </main>
+
+  <script>
+    (function () {
+      const map = document.getElementById('map');
+      const svg = document.getElementById('links');
+      const nodes = [...map.querySelectorAll('.node')];
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const stacked = () => window.matchMedia('(max-width: 700px)').matches;
+
+      // Which categories are connected (by position in the list above)
+      const pairs = [[0, 1], [0, 2], [1, 3], [2, 3], [0, 3]];
+
+      const lines = pairs.map(() => {
+        const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        svg.appendChild(l);
+        return l;
+      });
+
+      // Each node drifts on its own slow, gentle path
+      const drift = nodes.map((_, i) => ({
+        ax: 18 + i * 4, ay: 14 + i * 3,          // how far it drifts (px)
+        sx: 0.00021 + i * 0.00004,               // how fast
+        sy: 0.00017 + i * 0.00005,
+        px: i * 1.7, py: i * 2.3                 // starting phase
+      }));
+
+      // Light up a node's lines on hover
+      nodes.forEach((n, i) => {
+        const on = (v) => pairs.forEach((p, k) => {
+          if (p.includes(i)) lines[k].classList.toggle('lit', v);
+        });
+        n.addEventListener('mouseenter', () => { on(true); drift[i].hold = true; });
+        n.addEventListener('mouseleave', () => { on(false); drift[i].hold = false; });
+        n.addEventListener('focus', () => on(true));
+        n.addEventListener('blur', () => on(false));
+      });
+
+      function frame(t) {
+        if (!stacked()) {
+          const w = map.clientWidth, h = map.clientHeight;
+          const pts = nodes.map((n, i) => {
+            const d = drift[i];
+            if (!d.hold) d.t = t;                  // hovered categories pause in place
+            const dx = reduceMotion ? 0 : Math.sin(d.t * d.sx + d.px) * d.ax;
+            const dy = reduceMotion ? 0 : Math.cos(d.t * d.sy + d.py) * d.ay;
+            const x = (parseFloat(n.dataset.x) / 100) * w + dx;
+            const y = (parseFloat(n.dataset.y) / 100) * h + dy;
+            n.style.left = x + 'px';
+            n.style.top = y + 'px';
+            // lines attach to the dot, which sits above the label
+            const dot = n.querySelector('.dot').getBoundingClientRect();
+            const box = map.getBoundingClientRect();
+            return [dot.left + dot.width / 2 - box.left, dot.top + dot.height / 2 - box.top];
+          });
+          pairs.forEach(([a, b], k) => {
+            lines[k].setAttribute('x1', pts[a][0]); lines[k].setAttribute('y1', pts[a][1]);
+            lines[k].setAttribute('x2', pts[b][0]); lines[k].setAttribute('y2', pts[b][1]);
+          });
+        } else {
+          nodes.forEach(n => { n.style.left = ''; n.style.top = ''; });
+        }
+        if (!reduceMotion) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+      if (reduceMotion) window.addEventListener('resize', () => frame(0));
+    })();
+  </script>
 
 </body>
 </html>
